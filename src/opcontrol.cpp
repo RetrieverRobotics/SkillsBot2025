@@ -115,9 +115,9 @@
  
          //lift
          if (controller_master->get_digital(E_CONTROLLER_DIGITAL_R1)) {          //seems to be held down rather than hard coded??  i want it to be hard coded (new_press)
-             lift.move_velocity(MOTOR_RED_GEAR_MULTIPLIER);                      //maybe different color                    
+             lift.move_velocity(MOTOR_BLUE_GEAR_MULTIPLIER);                      //maybe different color                    
          } else if (controller_master->get_digital(E_CONTROLLER_DIGITAL_L1)){    //will probably change
-             lift.move_velocity(-MOTOR_RED_GEAR_MULTIPLIER);
+             lift.move_velocity(-MOTOR_BLUE_GEAR_MULTIPLIER);
          } else {
              lift.brake();
          }
