@@ -31,7 +31,8 @@
  #define RIGHT_BACK_MOTOR_PORT   4
  
  //lift
- #define LIFT_MOTOR_PORT         5       //might add more
+ #define LIFT_MOTOR_PORT_LEFT    5          //left refers to the robot's left
+ #define LIFT_MOTOR_PORT_RIGHT   9
  
  //intake
  #define INTAKE_MOTOR_PORT_FRONT 6
@@ -49,7 +50,7 @@
  
      // initialize motors and sensors
  
-     std::vector<int8_t> left_motors, right_motors, intake_motors, grabber_motor, lift_motors;
+     std::vector<int8_t> left_motors, right_motors, intake_wheels, intake_ramp, grabber_motor, lift_motors;
  
  
      //left drive
@@ -57,28 +58,31 @@
  
      MotorGroup drive_left (left_motors);
      drive_left.set_brake_modes(E_MOTOR_BRAKE_COAST);
-     drive_left.set_gearing(E_MOTOR_GEAR_BLUE);         //maybe blue
+     drive_left.set_gearing(E_MOTOR_GEAR_GREEN);         //maybe blue
  
      //right drive
      right_motors.assign({RIGHT_FRONT_MOTOR_PORT, RIGHT_BACK_MOTOR_PORT});
      
      MotorGroup drive_right(right_motors); 
      drive_right.set_brake_modes(E_MOTOR_BRAKE_COAST);
-     drive_right.set_gearing(E_MOTOR_GEAR_BLUE);         //maybe blue
+     drive_right.set_gearing(E_MOTOR_GEAR_GREEN);         //maybe blue
  
     
      //lift
-     lift_motors.assign({LIFT_MOTOR_PORT});
+     lift_motors.assign({LIFT_MOTOR_PORT_RIGHT, LIFT_MOTOR_PORT_LEFT});
      
      MotorGroup lift (lift_motors);
      lift.set_brake_modes(E_MOTOR_BRAKE_HOLD);
-     lift.set_gearing(E_MOTOR_GEAR_BLUE);
+     lift.set_gearing(E_MOTOR_GEAR_RED);
  
  
      //intake
-     intake_motors.assign({INTAKE_MOTOR_PORT_FRONT, INTAKE_MOTOR_PORT_RAMP});   //this should just be constant
+     intake_wheels.assign({INTAKE_MOTOR_PORT_FRONT});   //this should just be constant
+     intake_ramp.assign({INTAKE_MOTOR_PORT_RAMP});
 
-     MotorGroup intake(intake_motors);
+     MotorGroup intake(intake_wheels);
+     MotorGroup ramp(intake_ramp);
+
      intake.set_gearing(E_MOTOR_GEAR_BLUE);                                     //no brake mode; we ball    (probably just a hard stop if needed)
  
  
@@ -86,8 +90,8 @@
      grabber_motor.assign({GOAL_GRABBER_MOTOR_PORT});
 
      MotorGroup goal_grabber (grabber_motor);
-     goal_grabber.set_gearing(E_MOTOR_GEAR_GREEN);
-     goal_grabber.set_brake_modes(E_MOTOR_BRAKE_HOLD)
+     goal_grabber.set_gearing(E_MOTOR_GEAR_BLUE);
+     goal_grabber.set_brake_modes(E_MOTOR_BRAKE_HOLD);
      
  
      while(1) {
@@ -100,10 +104,10 @@
          int32_t arcade_x = controller_master->get_analog(E_CONTROLLER_ANALOG_RIGHT_X);
  
          int32_t drive_left_velocity = (int32_t)(((double)(arcade_y + arcade_x) / (double)E_CONTROLLER_ANALOG_MAX)
-                                         * MOTOR_BLUE_GEAR_MULTIPLIER); //rpm              ^ to scale power 
+                                         * MOTOR_GREEN_GEAR_MULTIPLIER); //rpm              ^ to scale power 
 
          int32_t drive_right_velocity = (int32_t)(((double)(arcade_y - arcade_x) / (double)E_CONTROLLER_ANALOG_MAX)
-                                         * MOTOR_BLUE_GEAR_MULTIPLIER);
+                                         * MOTOR_GREEN_GEAR_MULTIPLIER);
  
          //setting drive velocity
          drive_left.move_velocity(drive_left_velocity);
@@ -115,9 +119,9 @@
  
          //lift
          if (controller_master->get_digital(E_CONTROLLER_DIGITAL_R1)) {          //seems to be held down rather than hard coded??  i want it to be hard coded (new_press)
-             lift.move_velocity(MOTOR_BLUE_GEAR_MULTIPLIER);                      //maybe different color                    
-         } else if (controller_master->get_digital(E_CONTROLLER_DIGITAL_L1)){    //will probably change
-             lift.move_velocity(-MOTOR_BLUE_GEAR_MULTIPLIER);
+             lift.move_velocity(MOTOR_RED_GEAR_MULTIPLIER);                      //maybe different color                    
+         } else if (controller_master->get_digital(E_CONTROLLER_DIGITAL_R2)){    //will probably change
+             lift.move_velocity(-MOTOR_RED_GEAR_MULTIPLIER);
          } else {
              lift.brake();
          }
@@ -125,17 +129,22 @@
  
  
          //intake
-         if (controller_master->get_digital(E_CONTROLLER_DIGITAL_R2)){
+
+         if (controller_master->get_digital(E_CONTROLLER_DIGITAL_L1)){
+            intake.move_velocity(MOTOR_BLUE_GEAR_MULTIPLIER);
+            ramp.move_velocity(MOTOR_BLUE_GEAR_MULTIPLIER);
+         }
+         else if (controller_master->get_digital(E_CONTROLLER_DIGITAL_L2)){
             intake.move_velocity(MOTOR_BLUE_GEAR_MULTIPLIER);
          }
  
  
          //goal grabber
-         if (controller_master->get_digital_new_press(E_CONTROLLER_DIGITAL_L1)){     //copied from mechanum
-             goal_grabber.move_velocity(MOTOR_GREEN_GEAR_MULTIPLIER);                  //assuming red gearbox
+         if (controller_master->get_digital_new_press(E_CONTROLLER_DIGITAL_B)){     //copied from mechanum
+             goal_grabber.move_velocity(MOTOR_RED_GEAR_MULTIPLIER);                  //assuming red gearbox
          }
          else{
-             goal_grabber.move_velocity(-MOTOR_GREEN_GEAR_MULTIPLIER);                 //this thing needs to move quicker i think (yikes)
+             goal_grabber.move_velocity(-MOTOR_RED_GEAR_MULTIPLIER);                 //this thing needs to move quicker i think (yikes)
          }
         
  
