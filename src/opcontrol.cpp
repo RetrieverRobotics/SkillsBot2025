@@ -125,7 +125,9 @@
  
  
          //intake
-         intake.move_velocity(MOTOR_BLUE_GEAR_MULTIPLIER);
+         if (controller_master->get_digital(E_CONTROLLER_DIGITAL_R2)){
+            intake.move_velocity(MOTOR_BLUE_GEAR_MULTIPLIER);
+         }
  
  
          //goal grabber
