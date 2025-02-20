@@ -132,10 +132,10 @@
  
          //goal grabber
          if (controller_master->get_digital_new_press(E_CONTROLLER_DIGITAL_L1)){     //copied from mechanum
-             goal_grabber.move_velocity(MOTOR_RED_GEAR_MULTIPLIER);                  //assuming red gearbox
+             goal_grabber.move_velocity(MOTOR_GREEN_GEAR_MULTIPLIER);                  //assuming red gearbox
          }
          else{
-             goal_grabber.move_velocity(-MOTOR_RED_GEAR_MULTIPLIER);                 //this thing needs to move quicker i think (yikes)
+             goal_grabber.move_velocity(-MOTOR_GREEN_GEAR_MULTIPLIER);                 //this thing needs to move quicker i think (yikes)
          }
         
  
