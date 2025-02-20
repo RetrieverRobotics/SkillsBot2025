@@ -66,7 +66,7 @@
      drive_right.set_brake_modes(E_MOTOR_BRAKE_COAST);
      drive_right.set_gearing(E_MOTOR_GEAR_GREEN);         //maybe blue
  
-    /*
+    
      //lift
      lift_motors.assign({LIFT_MOTOR_PORT});
      
@@ -88,7 +88,7 @@
      MotorGroup goal_grabber (grabber_motor);
      goal_grabber.set_gearing(E_MOTOR_GEAR_BLUE);
      goal_grabber.set_brake_modes(E_MOTOR_BRAKE_HOLD)
-     */
+     
  
      while(1) {
  
@@ -110,7 +110,7 @@
          drive_right.move_velocity(drive_right_velocity);
  
  
-        /*
+        
          //probably no partner
  
          //lift
@@ -135,7 +135,7 @@
          else{
              goal_grabber.move_velocity(-MOTOR_RED_GEAR_MULTIPLIER);                 //this thing needs to move quicker i think (yikes)
          }
-        */
+        
  
  
          // required loop delay (do not edit)
