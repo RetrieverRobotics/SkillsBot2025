@@ -57,14 +57,14 @@
  
      MotorGroup drive_left (left_motors);
      drive_left.set_brake_modes(E_MOTOR_BRAKE_COAST);
-     drive_left.set_gearing(E_MOTOR_GEAR_GREEN);         //maybe blue
+     drive_left.set_gearing(E_MOTOR_GEAR_BLUE);         //maybe blue
  
      //right drive
      right_motors.assign({RIGHT_FRONT_MOTOR_PORT, RIGHT_BACK_MOTOR_PORT});
      
      MotorGroup drive_right(right_motors); 
      drive_right.set_brake_modes(E_MOTOR_BRAKE_COAST);
-     drive_right.set_gearing(E_MOTOR_GEAR_GREEN);         //maybe blue
+     drive_right.set_gearing(E_MOTOR_GEAR_BLUE);         //maybe blue
  
     
      //lift
@@ -100,10 +100,10 @@
          int32_t arcade_x = controller_master->get_analog(E_CONTROLLER_ANALOG_RIGHT_X);
  
          int32_t drive_left_velocity = (int32_t)(((double)(arcade_y + arcade_x) / (double)E_CONTROLLER_ANALOG_MAX)
-                                         * MOTOR_GREEN_GEAR_MULTIPLIER); //rpm              ^ to scale power 
+                                         * MOTOR_BLUE_GEAR_MULTIPLIER); //rpm              ^ to scale power 
 
          int32_t drive_right_velocity = (int32_t)(((double)(arcade_y - arcade_x) / (double)E_CONTROLLER_ANALOG_MAX)
-                                         * MOTOR_GREEN_GEAR_MULTIPLIER);
+                                         * MOTOR_BLUE_GEAR_MULTIPLIER);
  
          //setting drive velocity
          drive_left.move_velocity(drive_left_velocity);
