@@ -72,7 +72,7 @@
      
      MotorGroup lift (lift_motors);
      lift.set_brake_modes(E_MOTOR_BRAKE_HOLD);
-     lift.set_gearing(E_MOTOR_GEAR_RED);
+     lift.set_gearing(E_MOTOR_GEAR_BLUE);
  
  
      //intake
@@ -86,7 +86,7 @@
      grabber_motor.assign({GOAL_GRABBER_MOTOR_PORT});
 
      MotorGroup goal_grabber (grabber_motor);
-     goal_grabber.set_gearing(E_MOTOR_GEAR_BLUE);
+     goal_grabber.set_gearing(E_MOTOR_GEAR_GREEN);
      goal_grabber.set_brake_modes(E_MOTOR_BRAKE_HOLD)
      
  
